@@ -1,6 +1,6 @@
 import chromadb
 from chromadb.config import Settings
-from app.services.embedding_service import get_embeddings
+from app.services.embedding_service import get_query_embeddings, get_document_embeddings
 
 client = chromadb.Client(Settings(persist_directory="./chroma_db", is_persistent=True))
 """print("ChromaDB client initialized with settings:", client.get_settings())"""
@@ -10,9 +10,9 @@ print("Collection created or retrieved.")
 
 def add_documents(documents):
     for i, doc in enumerate(documents):
-        embedding = get_embeddings(doc)
+        embedding = get_document_embeddings(doc)
         collection.add(
-            embeddings=[embedding],
+            embeddings=embedding,
             documents=[doc],
             metadatas=[{"source": f"doc_{i}"}],
             ids=[f"id_{i}"]
@@ -24,10 +24,9 @@ def add_documents(documents):
         print(collections)"""
 
 def search_similar_documents(query: str, n_results: int = 1):
-    query_embedding = get_embeddings(query)
+    query_embedding = get_query_embeddings(query)
     results = collection.query(
-        query_embeddings=[query_embedding],
+        query_embeddings=query_embedding,
         n_results=n_results
     )
-    print(results)
     return results['documents'][0] if results['documents'] else []
