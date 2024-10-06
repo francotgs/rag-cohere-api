@@ -1,4 +1,8 @@
-# Files and directories to be ignored by Git
+# Files and directories that are not needed in the container
+
+# Version Control Systems configuration files
+.git
+.gitignore
 
 # Virtual environment
 venv/
