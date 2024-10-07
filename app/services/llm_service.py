@@ -26,8 +26,25 @@ logger = get_logger()
 cohere_api_key = os.getenv("COHERE_API_KEY")
 co = cohere.ClientV2(cohere_api_key)
 
-def get_llm_response(message: str, context: str, language: str):
-    # Instrucciones para el modelo
+def get_llm_response(message: str, context: str, language: str) -> str:
+    """
+    Genera una respuesta del modelo de lenguaje basada en un mensaje y contexto dados.
+
+    Esta función utiliza el modelo 'command-r-plus-08-2024' de Cohere para generar
+    una respuesta contextualizada a partir de un mensaje del usuario y un contexto
+    proporcionado. La respuesta se genera en el idioma especificado.
+
+    Args:
+        message (str): El mensaje o pregunta del usuario.
+        context (str): El contexto relevante para generar la respuesta.
+        language (str): El idioma en el que se debe generar la respuesta.
+
+    Returns:
+        str: La respuesta generada por el modelo de lenguaje.
+
+    Raises:
+        Exception: Si ocurre un error durante la generación de la respuesta.
+    """
     system_message = (
         "Responde a la siguiente pregunta siguiendo las instrucciones\n"
         "Instrucciones:\n"

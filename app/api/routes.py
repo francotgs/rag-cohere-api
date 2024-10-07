@@ -25,7 +25,23 @@ logger = get_logger()
 router = APIRouter()
 
 @router.post("/query_answer")
-async def query_answer(query: Query):
+async def query_answer(query: Query) -> dict:
+    """
+    Procesa una consulta del usuario y genera una respuesta utilizando RAG.
+
+    Esta función maneja las solicitudes POST al endpoint /query_answer. Utiliza
+    el enfoque de Generación Aumentada por Recuperación (RAG) para generar una
+    respuesta contextualizada a la pregunta del usuario.
+
+    Args:
+        query (Query): Un objeto Query que contiene la pregunta del usuario.
+
+    Returns:
+        dict: Un diccionario con la respuesta generada.
+
+    Raises:
+        HTTPException: Si no se encuentra contexto relevante o ocurre un error inesperado.
+    """
     try:
         context = search_similar_documents(query.question)
         if not context:

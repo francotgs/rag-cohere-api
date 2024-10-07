@@ -10,7 +10,14 @@ from pydantic import BaseModel
 
 class Query(BaseModel):
     """
-    Modelo que representa la consulta del usuario a la API.
+    Modelo de datos para la consulta del usuario.
+
+    Este modelo valida y estructura la información de la consulta que un usuario 
+    envía a la API, la cual contiene el nombre del usuario y su pregunta.
+
+    Attributes:
+        user_name (str): El nombre del usuario que hace la pregunta.
+        question (str): La pregunta que el usuario desea realizar.
     """
     user_name: str
     question: str

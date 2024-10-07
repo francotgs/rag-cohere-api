@@ -15,6 +15,7 @@ de entorno o en un archivo .env.
 """
 
 import os
+from typing import List
 import cohere
 from dotenv import load_dotenv
 from app.utils.logger import get_logger
@@ -25,8 +26,23 @@ logger = get_logger()
 cohere_api_key = os.getenv("COHERE_API_KEY")
 co = cohere.ClientV2(cohere_api_key)
 
-def get_query_embeddings(text: str):
-    # Genera embeddings usando el método embed
+def get_query_embeddings(text: str) -> List[List[float]]:
+    """
+    Genera embeddings para una consulta de búsqueda.
+
+    Esta función utiliza el modelo 'embed-multilingual-v3.0' de Cohere para generar
+    embeddings vectoriales de una consulta dada. Los embeddings son útiles para
+    realizar búsquedas semánticas.
+
+    Args:
+        text (str): El texto de la consulta para el cual se generarán los embeddings.
+
+    Returns:
+        list: Una lista de listas de valores float que representa el embedding de la consulta.
+
+    Raises:
+        Exception: Si ocurre un error durante la generación del embedding.
+    """
     try:
         response = co.embed(
             texts=[text],
@@ -40,8 +56,23 @@ def get_query_embeddings(text: str):
         logger.error("Error generating embedding: %s", str(e), exc_info=True)
         raise
 
-def get_document_embeddings(text: str):
-    # Genera embeddings usando el método embed
+def get_document_embeddings(text: str) -> List[List[float]]:
+    """
+    Genera embeddings para un documento.
+
+    Esta función utiliza el modelo 'embed-multilingual-v3.0' de Cohere para generar
+    embeddings vectoriales de un documento dado. Los embeddings son útiles para
+    indexar y buscar documentos de manera semántica.
+
+    Args:
+        text (str): El texto del documento para el cual se generarán los embeddings.
+
+    Returns:
+        list: Una lista de listas de valores float que representa el embedding del documento.
+
+    Raises:
+        Exception: Si ocurre un error durante la generación del embedding.
+    """
     try:
         response = co.embed(
             texts=[text],

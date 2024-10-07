@@ -16,13 +16,14 @@ la incorporación de información al corpus de conocimiento del sistema.
 Nota: Este módulo requiere la biblioteca 'python-docx' para procesar archivos .docx.
 """
 
+from typing import List
 from docx import Document
 from app.services import add_documents
 from app.utils.logger import get_logger
 
 logger = get_logger()
 
-def extract_chunks(doc):
+def extract_chunks(doc: Document) -> List[str]:
     """
     Extrae y procesa los párrafos de un documento Word.
 
@@ -41,7 +42,7 @@ def extract_chunks(doc):
             paragraphs.append(paragraph.text.strip())
     return paragraphs
 
-def load_document(file_path):
+def load_document(file_path: str) -> None:
     """
     Carga un documento Word, lo procesa y añade su contenido a la base de datos vectorial.
 

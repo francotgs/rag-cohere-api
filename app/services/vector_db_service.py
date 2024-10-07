@@ -13,6 +13,7 @@ Este módulo trabaja en conjunto con el servicio de embeddings para procesar y a
 documentos, y es crucial para la funcionalidad de recuperación de información del sistema RAG.
 """
 
+from typing import List
 import chromadb
 from chromadb.config import Settings
 from app.services import get_query_embeddings, get_document_embeddings
@@ -23,25 +24,55 @@ logger = get_logger()
 client = chromadb.Client(Settings(persist_directory="./chroma_db", is_persistent=True))
 collection = client.get_or_create_collection("documents")
 
-def add_documents(documents):
+def add_documents(documents: List[str]) -> None:
+    """
+    Añade múltiples documentos (trozos de texto) a la base de datos vectorial.
+
+    Esta función procesa una lista de textos, genera embeddings para cada uno
+    y los almacena en la base de datos vectorial ChromaDB junto con metadatos básicos.
+
+    Args:
+        documents (list): Una lista de strings, donde cada string es un texto a añadir.
+
+    Raises:
+        Exception: Si ocurre un error al añadir un texto a la base de datos.
+    """
     for i, doc in enumerate(documents):
         try:
-            embedding = get_document_embeddings(doc)
+            embeddings = get_document_embeddings(doc)
             collection.add(
-                embeddings=embedding,
+                embeddings=embeddings,
                 documents=[doc],
                 metadatas=[{"source": f"doc_{i}"}],
                 ids=[f"id_{i}"]
             )
         except Exception as e:
-            logger.error("Error adding document %d to the vector database: %s", i, str(e), exc_info=True)
+            logger.error("Error adding document %d to the vector database: %s",
+                i, str(e), exc_info=True
+            )
             raise
 
-def search_similar_documents(query: str, n_results: int = 1):
+def search_similar_documents(query: str, n_results: int = 1) -> List[str]:
+    """
+    Busca documentos similares a una consulta dada en la base de datos vectorial.
+
+    Esta función genera un embedding para la consulta y busca los documentos más
+    similares en la base de datos vectorial ChromaDB.
+
+    Args:
+        query (str): La consulta para la cual se buscan documentos similares.
+        n_results (int, optional): El número de resultados a devolver. Por defecto es 1.
+
+    Returns:
+        list: Una lista que contiene el documento encontrado.
+
+    Raises:
+        Exception: Si ocurre un error durante la búsqueda de documentos similares.
+    """
     try:
-        query_embedding = get_query_embeddings(query)
+        query_embeddings = get_query_embeddings(query)
         results = collection.query(
-            query_embeddings=query_embedding,
+            query_embeddings=query_embeddings,
             n_results=n_results
         )
         return results['documents'][0] if results['documents'] else []
