@@ -98,7 +98,7 @@ Para hacer una consulta, envía una solicitud POST a `/query_answer` con el sigu
 ```json
 {
   "user_name": "John Doe",
-  "question": "¿Cómo funciona el sistema RAG?"
+  "question": "¿Quién es Zara?"
 }
 ```
 

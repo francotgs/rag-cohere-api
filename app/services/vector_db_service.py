@@ -39,12 +39,22 @@ def add_documents(documents: List[str]) -> None:
     """
     for i, doc in enumerate(documents):
         try:
+            # Definir el ID único del documento
+            doc_id = f"id_{i}"
+
+            # Verificar si el documento ya existe en la colección
+            existing_docs = collection.get(ids=[doc_id])
+
+            if existing_docs['ids']:
+                continue  # Saltar al siguiente documento si ya existe
+
+            # Si el documento no existe, se generan embeddings y se agrega a la colección
             embeddings = get_document_embeddings(doc)
             collection.add(
                 embeddings=embeddings,
                 documents=[doc],
                 metadatas=[{"source": f"doc_{i}"}],
-                ids=[f"id_{i}"]
+                ids=[doc_id]
             )
         except Exception as e:
             logger.error("Error adding document %d to the vector database: %s",

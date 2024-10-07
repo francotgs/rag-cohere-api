@@ -11,10 +11,12 @@ Functions:
     realizando la carga de documentos.
 """
 
-import os
 from fastapi import FastAPI
 from app.api.routes import router
 from app.utils.load_documents import load_document
+from app.utils.logger import get_logger
+
+logger = get_logger()
 
 def create_app() -> FastAPI:
     """
@@ -31,6 +33,6 @@ def create_app() -> FastAPI:
     """
     app = FastAPI()
     app.include_router(router) # Inclusión de las rutas del módulo de enrutamiento
-    if not os.path.exists("./chroma_db"):
-        load_document("./data/documento.docx") # Carga inicial de documentos
+    load_document("./data/documento.docx")  # Carga inicial del documento
+    logger.info("Application loaded successfully.")
     return app

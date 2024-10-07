@@ -25,7 +25,7 @@ logger = get_logger()
 router = APIRouter()
 
 @router.post("/query_answer")
-async def query_answer(query: Query) -> dict:
+def query_answer(query: Query) -> dict:
     """
     Procesa una consulta del usuario y genera una respuesta utilizando RAG.
 
