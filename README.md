@@ -144,16 +144,16 @@ project_root/
 
 ## Desarrollo
 
-* Utiliza FastAPI como framework para la API.
-* Implementa embeddings y LLM utilizando Cohere.
-* Utiliza ChromaDB como base de datos vectorial.
-* Se puede ejecutar tanto en local como dockerizado.
-* Soporta consultas en múltiples idiomas.
-* El proyecto sigue una arquitectura limpia con separación de responsabilidades.
-* Se utiliza variable de entorno para manejar la API key de Cohere.
+* Se utiliza FastAPI como framework para la API.
+* Se implementan embeddings y LLM utilizando Cohere.
+* Se utiliza ChromaDB como base de datos vectorial.
 * Se utiliza logging para el seguimiento de errores y eventos importantes.
+* Se utiliza variable de entorno para manejar la API key de Cohere.
+* Se puede ejecutar tanto en local como dockerizado.
+* El proyecto sigue una arquitectura limpia con separación de responsabilidades.
 * Los servicios de embeddings, LLM y base de datos vectorial están separados para
 mayor modularidad.
+* Soporta consultas en múltiples idiomas.
 
 ## Colección de Postman
 
