@@ -1,6 +1,6 @@
 # RAG API
 
-Esta es una API que implementa una solución de **Retrieval Augmented Generation (RAG)** utilizando **FastAPI**, **LangChain** y **ChromaDB**.
+Esta es una API que implementa una solución de **Retrieval Augmented Generation (RAG)** utilizando **FastAPI**, **Cohere** y **ChromaDB**.
 
 La aplicación se puede ejecutar tanto localmente como dentro de un contenedor Docker.
 
